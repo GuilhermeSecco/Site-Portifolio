@@ -1,0 +1,33 @@
+from app import app, mail
+from flask import render_template, redirect, request, flash
+from flask_mail import Message
+from config import email_pessoal
+from contato import Contato
+
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/send', methods=['GET', 'POST'])
+def send():
+    if request.method == 'POST':
+        formContato = Contato(
+            request.form['nome'],
+            request.form['email'],
+            request.form['mensagem']
+        )
+
+        msg = Message(
+            subject = f'Mensagem de {formContato.nome} enviada pelo site do portifólio',
+            sender = app.config.get('MAIL_USERNAME'),
+            recipients = [app.config.get('MAIL_USERNAME'), email_pessoal],
+            body = f'''Mensagem recebida de {formContato.nome} por meio do email: "{formContato.email}"
+            
+{formContato.mensagem}
+            
+            '''
+        )
+        mail.send(msg)
+        flash('Mensagem enviada com sucesso!')
+    return redirect('/#contato')
