@@ -1,8 +1,9 @@
 from app import app, mail
 from flask import render_template, redirect, request, flash
 from flask_mail import Message
-from config import email_pessoal
 from contato import Contato
+from dotenv import load_dotenv
+import os
 
 
 @app.route('/')
@@ -21,7 +22,7 @@ def send():
         msg = Message(
             subject = f'Mensagem de {formContato.nome} enviada pelo site do portifólio',
             sender = app.config.get('MAIL_USERNAME'),
-            recipients = [app.config.get('MAIL_USERNAME'), email_pessoal],
+            recipients = [app.config.get('MAIL_USERNAME'), os.getenv("EMAIL_PESSOAL")],
             body = f'''Mensagem recebida de {formContato.nome} por meio do email: "{formContato.email}"
             
 {formContato.mensagem}
