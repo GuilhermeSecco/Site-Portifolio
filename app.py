@@ -5,9 +5,8 @@ import os
 load_dotenv()
 
 app = Flask(__name__)
-from views import *
-
 app.secret_key = 'Shiro'
+from views import *
 
 mail_settings = {
     'MAIL_SERVER': 'smtp.gmail.com',

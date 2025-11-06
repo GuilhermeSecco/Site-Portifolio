@@ -1,4 +1,4 @@
-from app import app, mail
+from app import app
 from flask import render_template, redirect, request, flash
 from flask_mail import Message
 from contato import Contato
@@ -29,6 +29,7 @@ def send():
             
             '''
         )
+        from app import mail
         mail.send(msg)
         flash('Mensagem enviada com sucesso!')
     return redirect('/#contato')
